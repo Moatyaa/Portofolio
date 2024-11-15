@@ -17,7 +17,6 @@ const Hero = () => {
     const [imagePosition, setImagePosition] = useState("hero"); // Control the position of the image
     const { width } = useWindowSize(); // Use custom hook to track window size
 
-    const isLargeScreen = width >= 1024; // Apply animation only on large screens
 
     // Track scroll position and About section position
     useEffect(() => {
@@ -28,8 +27,9 @@ const Hero = () => {
         // Get the position of the "About" section
         const aboutSection = document.getElementById("about");
         if (aboutSection) {
+            
             const rect  = document.getElementById("hero")?.getBoundingClientRect();
-            setAboutSectionTop(window.scrollY + rect.top); // Get the top position of the About section
+            setAboutSectionTop(window.scrollY + (rect ? rect.top : 0 )); // Get the top position of the About section
         }
 
         window.addEventListener("scroll", handleScroll);
@@ -141,7 +141,7 @@ const Hero = () => {
             </div>
 
             {/* Apply motion scroll animation only on large screen */}
-            {isLargeScreen ? (
+            {width? width >= 1024 ? (
                 <motion.div
                     className="flex w-full transition-all duration-[0.855s] md:w-[40%] lg:w-[50%] items-center justify-center"
                     style={{
@@ -186,7 +186,7 @@ const Hero = () => {
                         />
                     </div>
                 </div>
-            )}
+            ):''}
         </section>
     );
 };
